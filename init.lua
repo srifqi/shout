@@ -23,8 +23,8 @@ minetest.register_on_chat_message(function(name, message)
 	local spos = shouter:getpos()
 	local heard = 0
 	
-	-- Minetest library
-	local function vdistance(a,b) local x,y,z = a.x-b.x,a.y-b.y,a.z-b.z return math.hypot(x,math.hypot(y,z)) end
+	-- Minetest library (modified)
+	local function vdistance(a,b) local x,y,z = a.x-b.x,a.y-b.y,a.z-b.z return math.sqrt(x*x+y*y+z*z) end
 	
 	for _,player in ipairs(minetest.get_connected_players()) do
 		if player:get_player_name() ~= shouter:get_player_name() then
