@@ -11,12 +11,13 @@ shout.PAYMENT	= {		-- Payment
 	string	= "default:stick",	-- Payment ItemString
 	amount	= 1,
 	name	= "stick",	-- "You don't have any %s to pay."
-} 
+}
 
 --------------------
 -- Internal Stuff --
 --------------------
 
+shout.DISTANCESQ = shout.DISTANCE ^ 2
 -- Limit chat by distance given in shout.DISTANCE parameter
 minetest.register_on_chat_message(function(name, message)
 	local shouter = minetest.get_player_by_name(name)
@@ -24,12 +25,12 @@ minetest.register_on_chat_message(function(name, message)
 	local heard = 0
 	
 	-- Minetest library (modified)
-	local function vdistance(a,b) local x,y,z = a.x-b.x,a.y-b.y,a.z-b.z return math.sqrt(x*x+y*y+z*z) end
+	local function vdistancesq(a,b) local x,y,z = a.x-b.x,a.y-b.y,a.z-b.z return x*x+y*y+z*z end
 	
 	for _,player in ipairs(minetest.get_connected_players()) do
 		if player:get_player_name() ~= shouter:get_player_name() then
 			local pos = player:getpos()
-			if vdistance(spos,pos) <= shout.DISTANCE then
+			if vdistancesq(spos,pos) <= shout.DISTANCESQ then
 				minetest.chat_send_player(player:get_player_name(), "<"..name.."> "..message)
 				heard = heard +1
 			end
